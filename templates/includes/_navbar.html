@@ -1,0 +1,33 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm fixed-top">
+    <a class="navbar-brand" href="/">Earvin's Ecommerce</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+            aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse ml-auto" id="navbarResponsive">
+
+        <ul class="navbar-nav ml-auto">
+            {% if session.logged_in %}
+            <li class="nav-item"><a href="/" class="nav-link"><span class=""></span> Home</a></li>
+            <li class="nav-item"><a href="/profile?user={{session.uid}}" class="nav-link"><span class=""></span>{{session.s_name}}</a>
+                            <!--<h1 class="my-4">{{session.s_name}}</h1>-->
+
+            </li>
+            <li class="nav-item"><a href="/out" class="nav-link"><span class=""></span> Logout</a></li>
+            {% else %}
+            <li class="nav-item"><a href="/" class="nav-link"><span class=""></span> Home</a></li>
+            <li class="nav-item"><a href="/register" class="nav-link"><span class=""></span> Signup</a></li>
+            <li class="nav-item"><a href="/login" class="nav-link"><span class=""></span> Login</a></li>
+            {% endif %}
+        </ul>
+         <div class="input-group p-0 justify-content-left ml-auto ">
+            <form action="/search" method="get" class="w-50 m-0" style="padding-left: 20%;right: 120% ">
+                <div class="input-group-append rounded-left search_color">
+                    <input type="text" class="form-control rounded-left form-control-sm" autocomplete="off" style="float: right; border-radius: 0;" name="q" placeholder="What you want...">
+                    <button class="btn btn-primary btn-sm rounded-right" style="border-radius: 0; background-color: #aa870a; border-color: #aa870a " type="submit">Search</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</nav>
