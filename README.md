@@ -43,5 +43,5 @@ There are also many more feature which are not in the list.
 
 ## Get In Touch
 Have any problem? Don't hesitate to connect... <br>
-(i) Facebook: https://www.facebook.com/earvinbaraka <br>
-(ii) Youtube: https://www.youtube.com/earvinbaraka <br>
+(i) Facebook: https://www.facebook.com/earvin.baraka <br>
+(ii) Youtube: https://www.youtube.com/channel/UC3Tsx-p1AE_DpbHXZVav4Cw <br>
