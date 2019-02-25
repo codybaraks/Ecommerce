@@ -2,7 +2,7 @@
 
 ## Web View
 Go to this link to view website <br>
-https://menshut.pythonanywhere.com
+
 
 ## Summary
 Hello friends, This is my first full e-commerce project with Python-Flask. This is free. Anybody can use and moderate this project.
@@ -12,7 +12,7 @@ Hello friends, This is my first full e-commerce project with Python-Flask. This 
   (i) HTML5 <br>
   (ii) CSS3 <br>
   (iii) JavaScript <br>
-  (iv) Bootstrap <br>
+  (iv) Bootstrap 4 <br>
 
 ### Back-End
   (i) Python - Flask <br>
@@ -38,10 +38,10 @@ Hello friends, This is my first full e-commerce project with Python-Flask. This 
 (iv) Manage all Users <br>
 
 ## Conclusion
-There are also many more feature which are not in the list. Feel free to use this project
+There are also many more feature which are not in the list.
 
 
 ## Get In Touch
 Have any problem? Don't hesitate to connect... <br>
-(i) Facebook: https://www.facebook.com/mohsingram <br>
-(ii) Youtube: https://www.youtube.com/mohsingram <br>
+(i) Facebook: https://www.facebook.com/earvinbaraka <br>
+(ii) Youtube: https://www.youtube.com/earvinbaraka <br>
