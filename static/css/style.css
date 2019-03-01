@@ -130,3 +130,7 @@ section .section-title {
     border-color: #aa870a!important;
 }
 .card-body btn
+.navbar-collapse
+{
+    margin-right: 70rem!important;
+}

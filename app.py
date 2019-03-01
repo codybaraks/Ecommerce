@@ -1,7 +1,12 @@
 from flask import Flask, render_template, flash, redirect, url_for, session, request, logging, Markup
+from wtforms import Form
+# from flask_wtf import Form
+from wtforms.form import Form
+
 # from flask import
 from flask_mysqldb import MySQL
 import mysql.connector as connector
+from werkzeug.utils import secure_filename
 from wtforms import Form, StringField, TextAreaField, PasswordField, validators, SelectField, FileField
 from passlib.hash import sha256_crypt
 from functools import wraps
@@ -11,7 +16,7 @@ import datetime
 from flask_mail import Mail, Message
 import secrets
 from PIL import Image
-from flask_wtf.file import FileField, FileAllowed,FileRequired
+from flask_wtf.file import FileField, FileAllowed, FileRequired
 import os
 from wtforms.fields.html5 import EmailField
 
@@ -20,6 +25,7 @@ from wtforms.fields.html5 import EmailField
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
+ALLOWED_EXTENSIONS = set(['jpeg', 'jpg', 'png', 'gif'])
 app.config['UPLOADED_PHOTOS_DEST'] = 'static/image/product'
 photos = UploadSet('photos', IMAGES)
 configure_uploads(app, photos)
@@ -903,64 +909,67 @@ class UpdateRegisterForm(Form):
                              render_kw={'placeholder': 'Password'})
     mobile = StringField('Mobile', [validators.length(min=1)], render_kw={'placeholder': 'Mobile'})
     picture = FileField('Update Profile Picture', validators=[FileAllowed(['jpg', 'png']), FileRequired()])
+
+
 # validators=[FileRequired()]
 
 
-def save_picture(form_picture):
-    random_hex = secrets.token_hex(8)
-    _, f_ext = os.path.splitext(form_picture.filename)
-    picture_fn = random_hex + f_ext
-    picture_path = os.path.join(app.root_path, 'static/image/profile_pics', picture_fn)
-
-    output_size = (125, 125)
-    i = Image.open(form_picture)
-    i.thumbnail(output_size)
-    i.save(picture_path)
-
-    return picture_fn
+# def save_picture(form_picture):
+#     random_hex = secrets.token_hex(8)
+#     _, f_ext = os.path.splitext(form_picture.filename)
+#     picture_fn = random_hex + f_ext
+#     picture_path = os.path.join(app.root_path, 'static/image/profile_pics', picture_fn)
+#
+#     output_size = (125, 125)
+#     i = Image.open(form_picture)
+#     i.thumbnail(output_size)
+#     i.save(picture_path)
+#
+#     return picture_fn
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 
 @app.route('/settings', methods=['POST', 'GET'])
 @is_logged_in
 def settings():
-    form = UpdateRegisterForm()
+    form = UpdateRegisterForm(request.form)
+
     if 'user' in request.args:
         q = request.args['user']
         curso = mysql.connection.cursor()
         curso.execute("SELECT * FROM users WHERE id=%s", (q,))
         result = curso.fetchone()
+
         if result:
             if result['id'] == session['uid']:
-                if request.method == 'POST' and form.validate():
-
+                if request.method == 'POST':
+                    print("hello")
                     name = form.name.data
                     email = form.email.data
                     # picture = form.picture.data
-                    password = form.password.data
+                    password = sha256_crypt.encrypt(str(form.password.data))
+                    file = request.files['picture']
                     mobile = form.mobile.data
 
-
-                    picture_file = save_picture(form.picture.data)
-                    name.image_file = picture_file
-                    image_file = url_for('static', filename='profile_pics/' + name.image_file)
-
-                    # elif request.method == 'GET':
-                    print("progress")
-
-                    #         form.name.data = name
-                    #         form.email.data = email
-                    #         image_file = url_for('static', filename='profile_pics/' + name.image_file)
-
-                    cur = mysql.connection.cursor()
-                    exe = cur.execute(
-                        "UPDATE users SET name=%s, email=%s, password=%s, mobile=%s , picture=%s WHERE id=%s",
-                        (name, email, password, mobile, q, picture_file))
-                    mysql.connection.commit()
-                    print("gone through")
+                    if file:
+                        pic = file.filename
+                        photo = pic.replace("'", "")
+                        picture = photo.replace(" ", "_")
+                    if picture.lower().endswith(('.png', '.jpg', '.jpeg')):
+                        save_photo = photos.save(file, folder=picture)
+                    if save_photo:
+                        cur = mysql.connection.cursor()
+                        exe = cur.execute(
+                            "UPDATE users SET name=%s, email=%s, password=%s, mobile=%s , picture=%s WHERE id=%s",
+                            (name, email, password, mobile, q, pic))
+                        mysql.connection.commit()
+                        print("gone through")
 
                     if exe:
                         flash('Profile updated', 'success')
-                        return render_template('user_settings.html', result=result, image_file=image_file, form=form)
+                        return render_template('user_settings.html', result=result, form=form)
                     else:
                         flash('Profile not updated', 'danger')
                 return render_template('user_settings.html', result=result, form=form)

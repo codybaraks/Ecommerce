@@ -30,7 +30,7 @@
                 </div>
                 <!-- /.panel-heading -->
                 <div class="card-body">
-                    <img class="rounded-circle account-img" src="{{ image_file }}" height="200" width="200" alt="image">
+                    <img class="rounded-circle account-img" src="{{ picture }}" height="200" width="200" alt="image">
                     {% if result %}
                     {% from "includes/_formhelpers.html" import render_field %}
                     <form method="POST" action="/settings?user={{result.id}}" enctype="multipart/form-data">
@@ -53,24 +53,15 @@
                         <div class="form-group">
                             {{render_field(form.mobile, class="form-control", value=result.mobile)}}
                         </div>
-                        <!--<div class="form-group">-->
-                        <!--{{render_field(form.picture, class="form-control", value=result.picture)}}-->
-                        <!--</div>-->
-
                         <p>
                             <input type="submit" class="btn btn-primary" value="Update Settings">
                         </p>
+                        {{ form.csrf_token }}
                     </form>
                     {% endif%}
 
                 </div>
 
-                <!--<div class="form-group">-->
-                <!--<label>Product Code</label>-->
-                <!--<input class="form-control" name="categoty" required="required" placeholder="Enter code">-->
-                <!--</div>-->
-
-                <!-- /.panel-body -->
             </div>
         </div>
         <!-- /.col-lg-9 -->
