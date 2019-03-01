@@ -53,7 +53,7 @@
             <!--<li class="nav-item"><a href="/login" class="nav-link"><span class=""></span> Login</a></li>-->
             <!--{% endif %}-->
         </ul>
-        <div class="input-group p-0 justify-content-left ml-auto ">
+        <div class="input-group p-0 justify-content-center ml-auto ">
             <form action="/search" method="get" class="w-50 m-0" style="padding-left: 20%;right: 120% ">
                 <div class="input-group-append rounded-left search_color">
                     <input type="text" class="form-control rounded-left form-control-sm" autocomplete="off"
@@ -101,13 +101,17 @@
                 {
                     border-color: #aa870a;
                 }
+                .nav-item a
+                {
+                    color: #aa870a;
+                }
             </style>
             <!--<div class=" btn btn-primary"><a href="/out">Logout</a></div>-->
           </div>
          {% else %}
             <!--<li class="nav-item"><a href="/" class="nav-link"><span class=""></span> Home</a></li>-->
-            <h5 class="nav-item"><a href="/register" class="nav-link"><span class=""></span> Signup</a></h5>
-            <h5 class="nav-item"><a href="/login" class="nav-link"><span class="" style="color: #aa870a"></span> Login</a></h5>
+            <h5 class="nav-item sign"><a href="/register" class="nav-link"><span class="" style="color: #aa870a"> Signup</span></a></h5>
+            <h5 class="nav-item log"><a href="/login" class="nav-link"><span class="" style="color: #aa870a">Login</span> </a></h5>
             {% endif %}
     </div>
 

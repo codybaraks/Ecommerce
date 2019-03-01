@@ -137,7 +137,7 @@ def index():
     cur = mysql.connection.cursor()
     # Get message
     values = 'tshirt'
-    cur.execute("SELECT * FROM products WHERE category=%s ORDER BY RAND() LIMIT 4", (values,))
+    cur.execute("SELECT * FROM products WHERE category=%s ORDER BY RAND() LIMIT 6", (values,))
     tshirt = cur.fetchall()
     values = 'wallet'
     cur.execute("SELECT * FROM products WHERE category=%s ORDER BY RAND() LIMIT 4", (values,))
