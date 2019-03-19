@@ -2,7 +2,8 @@ from flask import Flask, render_template, flash, redirect, url_for, session, req
 from wtforms import Form
 # from flask_wtf import Form
 from wtforms.form import Form
-
+from mailchimp import Mailchimp
+import mailchimp
 # from flask import
 from flask_mysqldb import MySQL
 import mysql.connector as connector
@@ -40,7 +41,8 @@ app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
 # Initialize the app for use with this MySQL class
 mysql.init_app(app)
-
+# mailchimp_api = mailChimp('bde35c865cb5d38188ca0a60e3e3e538-us20')
+# mailchimp_api.listMemberInfo(id='38df0e7c26',email_address='earvinbaraka@gmail.com')
 
 def is_logged_in(f):
     @wraps(f)
@@ -91,6 +93,7 @@ def wrappers(func, *args, **kwargs):
         return func(*args, **kwargs)
 
     return wrapped
+
 
 
 def content_based_filtering(product_id):
@@ -151,6 +154,30 @@ def index():
     # Close Connection
     cur.close()
     return render_template('home.html', tshirt=tshirt, wallet=wallet, belt=belt, shoes=shoes, form=form)
+
+
+@app.route('/subscribe',methods=['GET', 'POST'])
+def subscribe():
+    form = RegisterForm(request.form)
+    if request.method == 'POST':
+        email = request.form['email']
+        apiKey = 'bde35c865cb5d38188ca0a60e3e3e538-us20';
+        listID = '38df0e7c26';
+
+
+
+        api = mailchimp.Mailchimp(apiKey)
+        api.lists.subscribe(listID, {'email': 'earvinbaraka@gmail.com'})
+
+        print(email)
+        cur = mysql.connection.cursor()
+        sql2 = "INSERT INTO `subscribe`(`email`) VALUES (%s)"
+        val = (email,)
+        cur.execute(sql2, val)
+        mysql.connection.commit()
+        print('gone through')
+        flash("Thank you for subscribing")
+    return render_template('home.html', form=form)
 
 
 class LoginForm(Form):  # Create Login Form
