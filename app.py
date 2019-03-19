@@ -34,8 +34,8 @@ configure_uploads(app, photos)
 mysql = MySQL()
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'root'
-app.config['MYSQL_DB'] = 'menshut'
+app.config['MYSQL_PASSWORD'] = ''
+app.config['MYSQL_DB'] = 'ecommerce'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
 # Initialize the app for use with this MySQL class
@@ -146,7 +146,7 @@ def index():
     cur.execute("SELECT * FROM products WHERE category=%s ORDER BY RAND() LIMIT 4", (values,))
     belt = cur.fetchall()
     values = 'shoes'
-    cur.execute("SELECT * FROM products WHERE category=%s ORDER BY RAND() LIMIT 4", (values,))
+    cur.execute("SELECT * FROM products WHERE category=%s ORDER BY RAND() LIMIT 6", (values,))
     shoes = cur.fetchall()
     # Close Connection
     cur.close()
